@@ -8,11 +8,14 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from "@nestjs/common";
 
-import { UserService } from "./user.service";
+import { JwtGuard } from "@/auth/guards/jwt-auth.guard";
+import { CurrentUser, UserPayload } from "@/lib/current-user-decorator";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
+import { UserService } from "./user.service";
 
 @Controller("user")
 export class UserController {
@@ -29,10 +32,11 @@ export class UserController {
     return this.userService.findAll();
   }
 
-  @Get(":email")
-  findByEmail(@Param("email") email: string) {
+  @Get("/me")
+  @UseGuards(JwtGuard)
+  findByEmail(@CurrentUser() user: UserPayload) {
     return this.userService.findByEmail({
-      where: { email },
+      where: { email: user.email },
       select: { id: true, name: true, email: true },
     });
   }
