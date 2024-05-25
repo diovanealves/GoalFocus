@@ -41,10 +41,14 @@ export class UserController {
     });
   }
 
-  @Patch(":id")
+  @Patch("")
+  @UseGuards(JwtGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
-  update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(id, updateUserDto);
+  update(
+    @CurrentUser() user: UserPayload,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    return this.userService.update(user.sub, updateUserDto);
   }
 
   @Delete(":id")

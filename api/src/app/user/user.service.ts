@@ -34,9 +34,13 @@ export class UserService {
     return await this.prisma.user.findUniqueOrThrow({ ...options });
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto) {
+  async update(userId: string, updateUserDto: UpdateUserDto) {
+    if (updateUserDto.password) {
+      updateUserDto.password = hashSync(updateUserDto.password, 8);
+    }
+
     await this.prisma.user.update({
-      where: { id },
+      where: { id: userId },
       data: { ...updateUserDto },
     });
   }
