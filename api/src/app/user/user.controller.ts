@@ -28,10 +28,10 @@ export class UserController {
     return this.userService.findAll();
   }
 
-  @Get(':id')
-  findById(@Param('id') id: string) {
-    return this.userService.findById({
-      where: { id },
+  @Get(':email')
+  findByEmail(@Param('email') email: string) {
+    return this.userService.findByEmail({
+      where: { email },
       select: { id: true, name: true, email: true },
     });
   }

@@ -30,7 +30,7 @@ export class UserService {
     });
   }
 
-  async findById(options?: Prisma.UserFindUniqueArgs) {
+  async findByEmail(options?: Prisma.UserFindUniqueArgs) {
     return await this.prisma.user.findUniqueOrThrow({ ...options });
   }
 
