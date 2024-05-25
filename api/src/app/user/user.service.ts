@@ -1,7 +1,7 @@
+import { PrismaService } from "@/lib/prisma.service";
 import { ConflictException, Injectable } from "@nestjs/common";
 import { Prisma } from "@prisma/client";
 import { hashSync } from "bcrypt";
-import { PrismaService } from "src/lib/prisma";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 
