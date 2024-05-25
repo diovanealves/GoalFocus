@@ -1,8 +1,8 @@
-import { Injectable } from "@nestjs/common";
-import { JwtService } from "@nestjs/jwt";
-import { User } from "@prisma/client";
-import { compareSync } from "bcrypt";
-import { UserService } from "src/app/user/user.service";
+import { Injectable } from '@nestjs/common'
+import { JwtService } from '@nestjs/jwt'
+import { User } from '@prisma/client'
+import { compareSync } from 'bcrypt'
+import { UserService } from 'src/app/user/user.service'
 
 @Injectable()
 export class AuthService {
@@ -12,29 +12,29 @@ export class AuthService {
   ) {}
 
   async validateUser(email: string, password: string) {
-    const user = await this.userService.findByEmail({ where: { email } });
+    const user = await this.userService.findByEmail({ where: { email } })
 
     if (user && compareSync(password, user.password)) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { password, ...result } = user;
-      return result;
+      const { password, ...result } = user
+      return result
     }
-    return null;
+    return null
   }
 
   async login(user: User) {
-    const payload = { sub: user.id, email: user.email };
+    const payload = { sub: user.id, email: user.email }
     return {
       access_token: this.jwtService.sign(payload),
-      refresh_token: this.jwtService.sign(payload, { expiresIn: "7d" }),
-    };
+      refresh_token: this.jwtService.sign(payload, { expiresIn: '7d' }),
+    }
   }
 
   async refreshToken(user: User) {
-    const payload = { sub: user.id, email: user.email };
+    const payload = { sub: user.id, email: user.email }
     return {
       access_token: this.jwtService.sign(payload),
-      refresh_token: this.jwtService.sign(payload, { expiresIn: "7d" }),
-    };
+      refresh_token: this.jwtService.sign(payload, { expiresIn: '7d' }),
+    }
   }
 }
