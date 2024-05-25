@@ -5,7 +5,6 @@ import {
   Get,
   HttpCode,
   HttpStatus,
-  Param,
   Patch,
   Post,
   UseGuards,
@@ -51,9 +50,10 @@ export class UserController {
     return this.userService.update(user.sub, updateUserDto);
   }
 
-  @Delete(":id")
+  @Delete("")
+  @UseGuards(JwtGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param("id") id: string) {
-    return this.userService.remove(id);
+  remove(@CurrentUser() user: UserPayload) {
+    return this.userService.remove(user.sub);
   }
 }

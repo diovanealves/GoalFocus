@@ -1,5 +1,9 @@
 import { PrismaService } from "@/lib/prisma.service";
-import { ConflictException, Injectable } from "@nestjs/common";
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import { Prisma } from "@prisma/client";
 import { hashSync } from "bcrypt";
 import { CreateUserDto } from "./dto/create-user.dto";
@@ -31,10 +35,18 @@ export class UserService {
   }
 
   async findByEmail(options: Prisma.UserFindUniqueArgs) {
-    return await this.prisma.user.findUniqueOrThrow({ ...options });
+    const user = await this.prisma.user.findUnique({ ...options });
+
+    if (!user) {
+      throw new NotFoundException("User not found");
+    }
+
+    return user;
   }
 
   async update(userId: string, updateUserDto: UpdateUserDto) {
+    await this.findByEmail({ where: { id: userId } });
+
     if (updateUserDto.password) {
       updateUserDto.password = hashSync(updateUserDto.password, 8);
     }
@@ -45,9 +57,11 @@ export class UserService {
     });
   }
 
-  async remove(id: string) {
+  async remove(userId: string) {
+    await this.findByEmail({ where: { id: userId } });
+
     await this.prisma.user.delete({
-      where: { id },
+      where: { id: userId },
     });
   }
 }
