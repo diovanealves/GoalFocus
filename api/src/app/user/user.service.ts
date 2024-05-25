@@ -1,9 +1,9 @@
-import { ConflictException, Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
-import { hashSync } from 'bcrypt';
-import { PrismaService } from 'src/lib/prisma';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { ConflictException, Injectable } from "@nestjs/common";
+import { Prisma } from "@prisma/client";
+import { hashSync } from "bcrypt";
+import { PrismaService } from "src/lib/prisma";
+import { CreateUserDto } from "./dto/create-user.dto";
+import { UpdateUserDto } from "./dto/update-user.dto";
 
 @Injectable()
 export class UserService {
@@ -17,8 +17,8 @@ export class UserService {
       })
       .catch((error) => {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
-          if (error.code === 'P2002') {
-            throw new ConflictException('Email already exists');
+          if (error.code === "P2002") {
+            throw new ConflictException("Email already exists");
           }
         }
       });
@@ -30,7 +30,7 @@ export class UserService {
     });
   }
 
-  async findByEmail(options?: Prisma.UserFindUniqueArgs) {
+  async findByEmail(options: Prisma.UserFindUniqueArgs) {
     return await this.prisma.user.findUniqueOrThrow({ ...options });
   }
 
