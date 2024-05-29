@@ -12,8 +12,8 @@ model User {
   name      String
   email     String   @unique
   password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
   goal      Goal[]
 
   @@map("users")
@@ -23,11 +23,11 @@ model Goal {
   id           String        @id @default(uuid())
   title        String
   description  String
-  currentValue Decimal
-  finalValue   Decimal
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  userId       String
+  currentValue Decimal       @map("current_value")
+  finalValue   Decimal       @map("final_value")
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+  userId       String        @map("user_id")
   user         User          @relation(fields: [userId], references: [id])
   transactions Transaction[]
 
@@ -35,11 +35,13 @@ model Goal {
 }
 
 model Transaction {
-  id     String          @id @default(uuid())
-  value  Decimal
-  type   TransactionType
-  goalId String
-  goal   Goal            @relation(fields: [goalId], references: [id])
+  id        String          @id @default(uuid())
+  value     Decimal
+  type      TransactionType
+  createdAt DateTime        @default(now()) @map("created_at")
+  updatedAt DateTime        @updatedAt @map("updated_at")
+  goalId    String          @map("goal_id")
+  goal      Goal            @relation(fields: [goalId], references: [id])
 
   @@map("transactions")
 }
