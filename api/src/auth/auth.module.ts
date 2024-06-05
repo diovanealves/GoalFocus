@@ -1,4 +1,4 @@
-import { UserService } from '@/app/user/user.service'
+import { UserService } from '@/app/users/user.service'
 import { PrismaService } from '@/lib/prisma.service'
 import { Module } from '@nestjs/common'
 import { JwtModule } from '@nestjs/jwt'
