@@ -39,9 +39,10 @@ export class GoalsController {
   @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(JwtGuard)
   update(
+    @CurrentUser() user: UserPayload,
     @Param('goalId') goalId: string,
     @Body() updateGoalDto: UpdateGoalDto,
   ) {
-    return this.goalsService.update(goalId, updateGoalDto)
+    return this.goalsService.update(user.sub, goalId, updateGoalDto)
   }
 }

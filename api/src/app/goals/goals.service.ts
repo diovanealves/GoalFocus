@@ -1,5 +1,10 @@
 import { PrismaService } from '@/lib/prisma.service'
-import { Injectable, NotFoundException } from '@nestjs/common'
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common'
+import { Prisma } from '@prisma/client'
 import { CreateGoalDto } from './dto/create-goal.dto'
 import { UpdateGoalDto } from './dto/update-goal.dto'
 
@@ -33,12 +38,22 @@ export class GoalsService {
     })
   }
 
-  async update(goalId: string, updateGoalDto: UpdateGoalDto) {
+  async update(userId: string, goalId: string, updateGoalDto: UpdateGoalDto) {
     await this.findOne(goalId)
 
-    await this.prisma.goal.update({
-      where: { id: goalId },
-      data: { ...updateGoalDto },
-    })
+    await this.prisma.goal
+      .update({
+        where: { id: goalId, userId },
+        data: { ...updateGoalDto },
+      })
+      .catch((error) => {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          if (error.code === 'P2025') {
+            throw new ConflictException(
+              'The provided goalID or userID is incorrect',
+            )
+          }
+        }
+      })
   }
 }
