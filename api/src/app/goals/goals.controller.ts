@@ -6,10 +6,13 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Param,
+  Patch,
   Post,
   UseGuards,
 } from '@nestjs/common'
 import { CreateGoalDto } from './dto/create-goal.dto'
+import { UpdateGoalDto } from './dto/update-goal.dto'
 import { GoalsService } from './goals.service'
 
 @Controller('goals')
@@ -30,5 +33,15 @@ export class GoalsController {
   @UseGuards(JwtGuard)
   findByUser(@CurrentUser() user: UserPayload) {
     return this.goalsService.findByUser(user.sub)
+  }
+
+  @Patch(':goalId')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @UseGuards(JwtGuard)
+  update(
+    @Param('goalId') goalId: string,
+    @Body() updateGoalDto: UpdateGoalDto,
+  ) {
+    return this.goalsService.update(goalId, updateGoalDto)
   }
 }
