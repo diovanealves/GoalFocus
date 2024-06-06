@@ -1,26 +1,17 @@
+import { PrismaService } from '@/lib/prisma.service'
 import { Injectable } from '@nestjs/common'
 import { CreateGoalDto } from './dto/create-goal.dto'
-import { UpdateGoalDto } from './dto/update-goal.dto'
 
 @Injectable()
 export class GoalsService {
-  create(createGoalDto: CreateGoalDto) {
-    return 'This action adds a new goal'
-  }
+  constructor(private readonly prisma: PrismaService) {}
 
-  findAll() {
-    return `This action returns all goals`
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} goal`
-  }
-
-  update(id: number, updateGoalDto: UpdateGoalDto) {
-    return `This action updates a #${id} goal`
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} goal`
+  async create(userId: string, createGoalDto: CreateGoalDto) {
+    await this.prisma.goal.create({
+      data: {
+        ...createGoalDto,
+        user: { connect: { id: userId } },
+      },
+    })
   }
 }
