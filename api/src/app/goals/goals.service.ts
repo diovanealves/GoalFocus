@@ -14,4 +14,11 @@ export class GoalsService {
       },
     })
   }
+
+  async findByUser(userId: string) {
+    return await this.prisma.goal.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+    })
+  }
 }

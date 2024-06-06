@@ -3,6 +3,7 @@ import { CurrentUser, UserPayload } from '@/lib/current-user-decorator'
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
@@ -23,5 +24,11 @@ export class GoalsController {
     @Body() createGoalDto: CreateGoalDto,
   ) {
     return this.goalsService.create(user.sub, createGoalDto)
+  }
+
+  @Get('/me')
+  @UseGuards(JwtGuard)
+  findByUser(@CurrentUser() user: UserPayload) {
+    return this.goalsService.findByUser(user.sub)
   }
 }
