@@ -56,4 +56,20 @@ export class GoalsService {
         }
       })
   }
+
+  async remove(userId: string, goalId: string) {
+    await this.findOne(goalId)
+
+    await this.prisma.goal
+      .delete({ where: { id: goalId, userId } })
+      .catch((error) => {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          if (error.code === 'P2025') {
+            throw new ConflictException(
+              'The provided goalID or userID is incorrect',
+            )
+          }
+        }
+      })
+  }
 }

@@ -3,6 +3,7 @@ import { CurrentUser, UserPayload } from '@/lib/current-user-decorator'
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -44,5 +45,12 @@ export class GoalsController {
     @Body() updateGoalDto: UpdateGoalDto,
   ) {
     return this.goalsService.update(user.sub, goalId, updateGoalDto)
+  }
+
+  @Delete(':goalId')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @UseGuards(JwtGuard)
+  remove(@CurrentUser() user: UserPayload, @Param('goalId') goalId: string) {
+    return this.goalsService.remove(user.sub, goalId)
   }
 }
