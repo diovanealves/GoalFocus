@@ -29,4 +29,18 @@ export class TransactionsService {
       },
     })
   }
+
+  async findLastTransactions(userId: string) {
+    return this.prisma.transaction.findMany({
+      where: {
+        goal: {
+          userId,
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 10,
+    })
+  }
 }

@@ -3,6 +3,7 @@ import { CurrentUser, UserPayload } from '@/lib/current-user-decorator'
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
@@ -23,5 +24,11 @@ export class TransactionsController {
     @Body() createTransactionDto: CreateTransactionDto,
   ) {
     return this.transactionsService.create(user.sub, createTransactionDto)
+  }
+
+  @Get('/me')
+  @UseGuards(JwtGuard)
+  findLastTransactions(@CurrentUser() user: UserPayload) {
+    return this.transactionsService.findLastTransactions(user.sub)
   }
 }
