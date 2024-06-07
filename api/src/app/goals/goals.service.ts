@@ -1,11 +1,5 @@
 import { PrismaService } from '@/lib/prisma.service'
-import {
-  ConflictException,
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common'
-import { Prisma } from '@prisma/client'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { CreateGoalDto } from './dto/create-goal.dto'
 import { UpdateGoalDto } from './dto/update-goal.dto'
 
@@ -22,11 +16,15 @@ export class GoalsService {
     })
   }
 
-  async findOne(goalId: string) {
-    const goal = await this.prisma.goal.findUnique({ where: { id: goalId } })
+  async findOne(goalId: string, userId: string) {
+    const goal = await this.prisma.goal.findUnique({
+      where: { id: goalId, userId },
+    })
 
     if (!goal) {
-      throw new NotFoundException('Goal not found')
+      throw new NotFoundException(
+        'Goal not found or you are not the owner of this goal',
+      )
     }
 
     return goal
@@ -40,13 +38,7 @@ export class GoalsService {
   }
 
   async findTransactionsByGoal(userId: string, goalId: string) {
-    const goalData = await this.findOne(goalId)
-
-    if (goalData.userId !== userId) {
-      throw new UnauthorizedException(
-        'You are not the owner of this goal to perform this action',
-      )
-    }
+    await this.findOne(goalId, userId)
 
     return await this.prisma.transaction.findMany({
       where: { goalId },
@@ -55,37 +47,23 @@ export class GoalsService {
   }
 
   async update(userId: string, goalId: string, updateGoalDto: UpdateGoalDto) {
-    await this.findOne(goalId)
+    await this.findOne(goalId, userId)
 
-    await this.prisma.goal
-      .update({
-        where: { id: goalId, userId },
-        data: { ...updateGoalDto },
-      })
-      .catch((error) => {
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-          if (error.code === 'P2025') {
-            throw new ConflictException(
-              'The provided goalID or userID is incorrect',
-            )
-          }
-        }
-      })
+    await this.prisma.goal.update({
+      where: { id: goalId },
+      data: { ...updateGoalDto },
+    })
   }
 
   async remove(userId: string, goalId: string) {
-    await this.findOne(goalId)
+    await this.findOne(goalId, userId)
 
-    await this.prisma.goal
-      .delete({ where: { id: goalId, userId } })
-      .catch((error) => {
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-          if (error.code === 'P2025') {
-            throw new ConflictException(
-              'The provided goalID or userID is incorrect',
-            )
-          }
-        }
-      })
+    await this.prisma.transaction.deleteMany({
+      where: { goalId },
+    })
+
+    await this.prisma.goal.delete({
+      where: { id: goalId },
+    })
   }
 }

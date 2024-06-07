@@ -60,6 +60,14 @@ export class UserService {
   async remove(userId: string) {
     await this.findByEmail({ where: { id: userId } })
 
+    await this.prisma.transaction.deleteMany({
+      where: { goal: { userId } },
+    })
+
+    await this.prisma.goal.deleteMany({
+      where: { userId },
+    })
+
     await this.prisma.user.delete({
       where: { id: userId },
     })

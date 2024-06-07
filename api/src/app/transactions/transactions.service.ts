@@ -1,9 +1,5 @@
 import { PrismaService } from '@/lib/prisma.service'
-import {
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { GoalsService } from '../goals/goals.service'
 import { CreateTransactionDto } from './dto/create-transaction.dto'
 import { UpdateTransactionDto } from './dto/update-transaction.dto'
@@ -16,15 +12,7 @@ export class TransactionsService {
   ) {}
 
   async create(userId: string, createTransactionDto: CreateTransactionDto) {
-    const goalData = await this.goalsService.findOne(
-      createTransactionDto.goalId,
-    )
-
-    if (goalData.userId !== userId) {
-      throw new UnauthorizedException(
-        'You are not the owner of this goal to perform this action',
-      )
-    }
+    await this.goalsService.findOne(createTransactionDto.goalId, userId)
 
     await this.prisma.transaction.create({
       data: {
