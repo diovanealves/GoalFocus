@@ -3,6 +3,7 @@ import { CurrentUser, UserPayload } from '@/lib/current-user-decorator'
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -48,5 +49,15 @@ export class TransactionsController {
       transactionId,
       updateTransactionDto,
     )
+  }
+
+  @Delete('/:transactionId')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @UseGuards(JwtGuard)
+  delete(
+    @CurrentUser() user: UserPayload,
+    @Param('transactionId') transactionId: string,
+  ) {
+    return this.transactionsService.delete(user.sub, transactionId)
   }
 }

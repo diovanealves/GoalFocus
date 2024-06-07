@@ -1,11 +1,9 @@
 import { PrismaService } from '@/lib/prisma.service'
 import {
-  ConflictException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common'
-import { Prisma } from '@prisma/client'
 import { GoalsService } from '../goals/goals.service'
 import { CreateTransactionDto } from './dto/create-transaction.dto'
 import { UpdateTransactionDto } from './dto/update-transaction.dto'
@@ -70,21 +68,19 @@ export class TransactionsService {
     transactionId: string,
     updateTransactionDto: UpdateTransactionDto,
   ) {
-    const { goalId } = await this.findOne(transactionId, userId)
+    await this.findOne(transactionId, userId)
 
-    await this.prisma.transaction
-      .update({
-        where: { id: transactionId, goalId },
-        data: { ...updateTransactionDto },
-      })
-      .catch((error) => {
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-          if (error.code === 'P2025') {
-            throw new ConflictException(
-              'The provided transactionId is incorrect',
-            )
-          }
-        }
-      })
+    await this.prisma.transaction.update({
+      where: { id: transactionId },
+      data: { ...updateTransactionDto },
+    })
+  }
+
+  async delete(userId: string, transactionId: string) {
+    await this.findOne(transactionId, userId)
+
+    await this.prisma.transaction.delete({
+      where: { id: transactionId },
+    })
   }
 }
