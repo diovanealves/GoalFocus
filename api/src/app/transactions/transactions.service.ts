@@ -17,7 +17,7 @@ export class TransactionsService {
 
     if (goalData.userId !== userId) {
       throw new UnauthorizedException(
-        'You are not authorized to perform this action',
+        'You are not the owner of this goal to perform this action',
       )
     }
 

@@ -3,6 +3,7 @@ import {
   ConflictException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common'
 import { Prisma } from '@prisma/client'
 import { CreateGoalDto } from './dto/create-goal.dto'
@@ -34,6 +35,21 @@ export class GoalsService {
   async findByUser(userId: string) {
     return await this.prisma.goal.findMany({
       where: { userId },
+      orderBy: { createdAt: 'desc' },
+    })
+  }
+
+  async findTransactionsByGoal(userId: string, goalId: string) {
+    const goalData = await this.findOne(goalId)
+
+    if (goalData.userId !== userId) {
+      throw new UnauthorizedException(
+        'You are not the owner of this goal to perform this action',
+      )
+    }
+
+    return await this.prisma.transaction.findMany({
+      where: { goalId },
       orderBy: { createdAt: 'desc' },
     })
   }

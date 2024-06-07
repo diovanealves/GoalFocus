@@ -36,6 +36,15 @@ export class GoalsController {
     return this.goalsService.findByUser(user.sub)
   }
 
+  @Get('/:goalId/transactions')
+  @UseGuards(JwtGuard)
+  findTransactionsByGoal(
+    @CurrentUser() user: UserPayload,
+    @Param('goalId') goalId: string,
+  ) {
+    return this.goalsService.findTransactionsByGoal(user.sub, goalId)
+  }
+
   @Patch(':goalId')
   @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(JwtGuard)
