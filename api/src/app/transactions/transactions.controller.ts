@@ -6,10 +6,13 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Param,
+  Patch,
   Post,
   UseGuards,
 } from '@nestjs/common'
 import { CreateTransactionDto } from './dto/create-transaction.dto'
+import { UpdateTransactionDto } from './dto/update-transaction.dto'
 import { TransactionsService } from './transactions.service'
 
 @Controller('transactions')
@@ -30,5 +33,20 @@ export class TransactionsController {
   @UseGuards(JwtGuard)
   findLastTransactions(@CurrentUser() user: UserPayload) {
     return this.transactionsService.findLastTransactions(user.sub)
+  }
+
+  @Patch('/:transactionId')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @UseGuards(JwtGuard)
+  update(
+    @CurrentUser() user: UserPayload,
+    @Param('transactionId') transactionId: string,
+    @Body() updateTransactionDto: UpdateTransactionDto,
+  ) {
+    return this.transactionsService.update(
+      user.sub,
+      transactionId,
+      updateTransactionDto,
+    )
   }
 }
