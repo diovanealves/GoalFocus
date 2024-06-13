@@ -12,10 +12,12 @@ import {
 
 import { JwtGuard } from '@/auth/guards/jwt-auth.guard'
 import { CurrentUser, UserPayload } from '@/lib/current-user-decorator'
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { UserService } from './user.service'
 
+@ApiTags('users')
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -33,6 +35,7 @@ export class UserController {
 
   @Get('/me')
   @UseGuards(JwtGuard)
+  @ApiBearerAuth('acceess-token')
   findByEmail(@CurrentUser() user: UserPayload) {
     return this.userService.findByEmail({
       where: { email: user.email },
@@ -43,6 +46,7 @@ export class UserController {
   @Patch('')
   @UseGuards(JwtGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiBearerAuth('acceess-token')
   update(
     @CurrentUser() user: UserPayload,
     @Body() updateUserDto: UpdateUserDto,
@@ -53,6 +57,7 @@ export class UserController {
   @Delete('')
   @UseGuards(JwtGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiBearerAuth('acceess-token')
   remove(@CurrentUser() user: UserPayload) {
     return this.userService.remove(user.sub)
   }

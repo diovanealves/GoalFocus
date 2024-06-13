@@ -12,10 +12,12 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common'
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { CreateTransactionDto } from './dto/create-transaction.dto'
 import { UpdateTransactionDto } from './dto/update-transaction.dto'
 import { TransactionsService } from './transactions.service'
 
+@ApiTags('transactions')
 @Controller('transactions')
 export class TransactionsController {
   constructor(private readonly transactionsService: TransactionsService) {}
@@ -23,6 +25,7 @@ export class TransactionsController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @UseGuards(JwtGuard)
+  @ApiBearerAuth('acceess-token')
   create(
     @CurrentUser() user: UserPayload,
     @Body() createTransactionDto: CreateTransactionDto,
@@ -32,6 +35,7 @@ export class TransactionsController {
 
   @Get('/me')
   @UseGuards(JwtGuard)
+  @ApiBearerAuth('acceess-token')
   findLastTransactions(@CurrentUser() user: UserPayload) {
     return this.transactionsService.findLastTransactions(user.sub)
   }
@@ -39,6 +43,7 @@ export class TransactionsController {
   @Patch('/:transactionId')
   @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(JwtGuard)
+  @ApiBearerAuth('acceess-token')
   update(
     @CurrentUser() user: UserPayload,
     @Param('transactionId') transactionId: string,
@@ -54,6 +59,7 @@ export class TransactionsController {
   @Delete('/:transactionId')
   @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(JwtGuard)
+  @ApiBearerAuth('acceess-token')
   delete(
     @CurrentUser() user: UserPayload,
     @Param('transactionId') transactionId: string,
