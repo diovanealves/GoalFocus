@@ -8,6 +8,7 @@ import { Input } from "../components/input";
 
 import { useEffect } from "react";
 import Toast from "react-native-toast-message";
+import { LinkButton } from "../components/link-button";
 import { SignInSchema } from "../interface/sign-in.interface";
 
 export default function Index() {
@@ -78,6 +79,8 @@ export default function Index() {
             <Feather name="arrow-right" color="#000" size={16} />
           </Button.Icon>
         </Button>
+
+        <LinkButton title="Cadastrar" href="/sign-up" />
       </View>
     </View>
   );
