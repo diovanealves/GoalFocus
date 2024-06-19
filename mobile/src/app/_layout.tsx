@@ -9,7 +9,7 @@ import { SafeAreaView, StatusBar } from "react-native";
 import { Loading } from "../components/loading";
 
 export default function Root() {
-  const fontsLoaded = useFonts({
+  const [fontsLoaded] = useFonts({
     Inter_400Regular,
     Inter_500Medium,
     Inter_700Bold,

@@ -7,9 +7,9 @@ module.exports = {
         backgroud: "#0E0F11",
       },
       fontFamily: {
-        medium: "Inter_500Medium",
-        regular: "Inter_400Regular",
-        bold: "Inter_700Bold",
+        subtitle: "Inter_500Medium",
+        body: "Inter_400Regular",
+        title: "Inter_700Bold",
       },
     },
   },
