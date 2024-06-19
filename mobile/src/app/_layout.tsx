@@ -6,6 +6,7 @@ import {
 } from "@expo-google-fonts/inter";
 import { Slot } from "expo-router";
 import { SafeAreaView, StatusBar } from "react-native";
+import Toast from "react-native-toast-message";
 import { Loading } from "../components/loading";
 
 export default function Root() {
@@ -20,9 +21,12 @@ export default function Root() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-backgroud">
-      <StatusBar backgroundColor="#0E0F11" />
-      <Slot />
-    </SafeAreaView>
+    <>
+      <SafeAreaView className="flex-1 bg-backgroud">
+        <StatusBar backgroundColor="#0E0F11" />
+        <Slot />
+      </SafeAreaView>
+      <Toast />
+    </>
   );
 }
