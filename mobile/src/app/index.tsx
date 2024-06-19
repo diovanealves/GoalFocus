@@ -1,11 +1,13 @@
-import { zodResolver } from "@hookform/resolvers/zod";
+import { Feather } from "@expo/vector-icons";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
 import { Text, View } from "react-native";
-import { z } from "zod";
 
-import { Feather } from "@expo/vector-icons";
 import { Button } from "../components/button";
 import { Input } from "../components/input";
+
+import { useEffect } from "react";
+import Toast from "react-native-toast-message";
 import { SignInSchema } from "../interface/sign-in.interface";
 
 export default function Index() {
@@ -13,13 +15,23 @@ export default function Index() {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<z.infer<typeof SignInSchema>>({
-    resolver: zodResolver(SignInSchema),
+  } = useForm({
+    resolver: yupResolver(SignInSchema),
   });
 
   function onSubmit(data: any) {
     console.log(data);
   }
+
+  useEffect(() => {
+    if (errors.email) {
+      return Toast.show({ type: "error", text1: errors.email.message });
+    }
+
+    if (errors.password) {
+      return Toast.show({ type: "error", text1: errors.password.message });
+    }
+  }, [errors.email, errors.password]);
 
   return (
     <View className="flex-1 items-center justify-center">
@@ -31,7 +43,6 @@ export default function Index() {
       <View className="w-4/5 mt-5 space-y-2">
         <Controller
           control={control}
-          rules={{ required: true }}
           name="email"
           render={({ field: { onChange, onBlur, value } }) => (
             <Input
@@ -47,7 +58,6 @@ export default function Index() {
 
         <Controller
           control={control}
-          rules={{ required: true }}
           name="password"
           render={({ field: { onChange, onBlur, value } }) => (
             <Input
