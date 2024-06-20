@@ -3,10 +3,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Text, View } from "react-native";
-import Toast from "react-native-toast-message";
 import { Button } from "../components/button";
 import { Input } from "../components/input";
 import { LinkButton } from "../components/link-button";
+import { ShowMyToast } from "../components/toast";
 import { SignUpSchema } from "../interface/sign-up.interface";
 
 export default function SignUp() {
@@ -24,24 +24,21 @@ export default function SignUp() {
 
   useEffect(() => {
     if (errors.name) {
-      return Toast.show({ type: "error", text1: errors.name.message });
+      return ShowMyToast({ type: "error", text: errors.name.message });
     }
 
     if (errors.email) {
-      return Toast.show({ type: "error", text1: errors.email.message });
+      return ShowMyToast({ type: "error", text: errors.email.message });
     }
 
     if (errors.password) {
-      return Toast.show({
-        type: "error",
-        text1: errors.password.message,
-      });
+      return ShowMyToast({ type: "error", text: errors.password.message });
     }
 
     if (errors.confirmPassword) {
-      return Toast.show({
+      return ShowMyToast({
         type: "error",
-        text1: errors.confirmPassword.message,
+        text: errors.confirmPassword.message,
       });
     }
   }, [errors.confirmPassword, errors.email, errors.name, errors.password]);

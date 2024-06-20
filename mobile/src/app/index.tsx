@@ -7,8 +7,8 @@ import { Button } from "../components/button";
 import { Input } from "../components/input";
 
 import { useEffect } from "react";
-import Toast from "react-native-toast-message";
 import { LinkButton } from "../components/link-button";
+import { ShowMyToast } from "../components/toast";
 import { SignInSchema } from "../interface/sign-in.interface";
 
 export default function Index() {
@@ -26,11 +26,11 @@ export default function Index() {
 
   useEffect(() => {
     if (errors.email) {
-      return Toast.show({ type: "error", text1: errors.email.message });
+      return ShowMyToast({ type: "error", text: errors.email.message });
     }
 
     if (errors.password) {
-      return Toast.show({ type: "error", text1: errors.password.message });
+      return ShowMyToast({ type: "error", text: errors.password.message });
     }
   }, [errors.email, errors.password]);
 
