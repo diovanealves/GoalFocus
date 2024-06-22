@@ -15,10 +15,18 @@ export const useCreateAccount = async (
     });
 
     ShowMyToast({ type: "success", text: "Conta criada com sucesso." });
+    return true;
   } catch (error: any) {
-    ShowMyToast({
-      type: "error",
-      text: "Erro ao criar conta. Tente novamente mais tarde.",
-    });
+    if (error.response && error.response.status === 409) {
+      ShowMyToast({
+        type: "error",
+        text: "Email já está em uso. Por favor escolha outro",
+      });
+    } else {
+      ShowMyToast({
+        type: "error",
+        text: "Erro ao criar conta. Tente novamente mais tarde.",
+      });
+    }
   }
 };

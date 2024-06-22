@@ -1,6 +1,6 @@
 import { Feather } from "@expo/vector-icons";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useNavigation } from "expo-router";
+import { useRouter } from "expo-router";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Text, View } from "react-native";
@@ -16,7 +16,7 @@ import { useCreateAccount } from "../hooks/useCreateAccount";
 import { SignUpSchema } from "../interface/sign-up.interface";
 
 export default function SignUp() {
-  const navigate = useNavigation();
+  const router = useRouter();
   const {
     control,
     handleSubmit,
@@ -26,8 +26,11 @@ export default function SignUp() {
   });
 
   async function useCreateAccountHandler(data: InferType<typeof SignUpSchema>) {
-    await useCreateAccount(data);
-    navigate.goBack();
+    const userCreated = await useCreateAccount(data);
+
+    if (userCreated) {
+      router.navigate("/");
+    }
   }
 
   useEffect(() => {
