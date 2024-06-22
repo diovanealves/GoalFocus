@@ -1,15 +1,22 @@
 import { Feather } from "@expo/vector-icons";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useNavigation } from "expo-router";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Text, View } from "react-native";
+import { InferType } from "yup";
+
 import { Button } from "../components/button";
 import { Input } from "../components/input";
 import { LinkButton } from "../components/link-button";
 import { ShowMyToast } from "../components/toast";
+
+import { useCreateAccount } from "../hooks/useCreateAccount";
+
 import { SignUpSchema } from "../interface/sign-up.interface";
 
 export default function SignUp() {
+  const navigate = useNavigation();
   const {
     control,
     handleSubmit,
@@ -18,8 +25,9 @@ export default function SignUp() {
     resolver: yupResolver(SignUpSchema),
   });
 
-  function onSubmit(data: any) {
-    console.log(data);
+  async function useCreateAccountHandler(data: InferType<typeof SignUpSchema>) {
+    await useCreateAccount(data);
+    navigate.goBack();
   }
 
   useEffect(() => {
@@ -113,7 +121,7 @@ export default function SignUp() {
           )}
         />
 
-        <Button onPress={handleSubmit(onSubmit)}>
+        <Button onPress={handleSubmit(useCreateAccountHandler)}>
           <Button.Text>Cadastrar</Button.Text>
           <Button.Icon>
             <Feather name="arrow-right" color="#000" size={16} />
