@@ -13,13 +13,15 @@
       "backgroundColor": "#0E0F11"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.GoalFocus"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/adaptive-icon.png",
         "backgroundColor": "#0E0F11"
-      }
+      },
+      "package": "com.GoalFocus"
     },
     "web": {
       "bundler": "metro",
