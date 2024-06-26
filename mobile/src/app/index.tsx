@@ -1,17 +1,20 @@
 import { Feather } from "@expo/vector-icons";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Text, View } from "react-native";
+import { InferType } from "yup";
 
 import { Button } from "../components/button";
 import { Input } from "../components/input";
-
-import { useEffect } from "react";
 import { LinkButton } from "../components/link-button";
 import { ShowMyToast } from "../components/toast";
+
+import { useSignInAccount } from "../hooks/useSignInAccount";
 import { SignInSchema } from "../interface/sign-in.interface";
 
 export default function Index() {
+  const { signInAccount } = useSignInAccount();
   const {
     control,
     handleSubmit,
@@ -20,8 +23,8 @@ export default function Index() {
     resolver: yupResolver(SignInSchema),
   });
 
-  function onSubmit(data: any) {
-    console.log(data);
+  async function useSignInAccountHandler(data: InferType<typeof SignInSchema>) {
+    const userSignIn = await signInAccount(data);
   }
 
   useEffect(() => {
@@ -73,7 +76,7 @@ export default function Index() {
           )}
         />
 
-        <Button onPress={handleSubmit(onSubmit)}>
+        <Button onPress={handleSubmit(useSignInAccountHandler)}>
           <Button.Text>Entrar</Button.Text>
           <Button.Icon>
             <Feather name="arrow-right" color="#000" size={16} />
