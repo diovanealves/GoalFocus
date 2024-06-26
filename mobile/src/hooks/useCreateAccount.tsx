@@ -1,7 +1,9 @@
 import { InferType } from "yup";
+
 import { ShowMyToast } from "../components/toast";
+
 import { SignUpSchema } from "../interface/sign-up.interface";
-import { api } from "../lib/axios";
+import api from "../lib/axios";
 
 export const useCreateAccount = async (
   data: InferType<typeof SignUpSchema>,
