@@ -29,7 +29,7 @@ export default function SignUp() {
     const userCreated = await useCreateAccount(data);
 
     if (userCreated) {
-      router.navigate("/");
+      router.navigate("/sign-in");
     }
   }
 

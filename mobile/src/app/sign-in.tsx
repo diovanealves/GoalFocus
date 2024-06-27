@@ -10,11 +10,13 @@ import { Input } from "../components/input";
 import { LinkButton } from "../components/link-button";
 import { ShowMyToast } from "../components/toast";
 
+import { router } from "expo-router";
 import { useSignInAccount } from "../hooks/useSignInAccount";
 import { SignInSchema } from "../interface/sign-in.interface";
 
-export default function Index() {
+export default function SignIn() {
   const { signInAccount } = useSignInAccount();
+
   const {
     control,
     handleSubmit,
@@ -25,6 +27,10 @@ export default function Index() {
 
   async function useSignInAccountHandler(data: InferType<typeof SignInSchema>) {
     const userSignIn = await signInAccount(data);
+
+    if (userSignIn) {
+      router.replace("/(home)/home");
+    }
   }
 
   useEffect(() => {
