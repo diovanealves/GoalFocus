@@ -9,10 +9,13 @@ export const SignUpSchema = yup.object().shape({
   password: yup
     .string()
     .required("O campo de senha é obrigatório")
+    .matches(/^(?=.*?[A-Z])(?=.*?[a-z])/, "Precisa de maiúscula e minúscula")
+
     .matches(
-      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/,
-      "Maiúsculas, minúsculas, números e especiais.",
-    ),
+      /^(?=.*?[0-9])(?=.*?[#?!@$%^&*-])/,
+      "Precisa de número e caractere especial",
+    )
+    .matches(/^.{8,}$/, "Mínimo de 8 caracteres"),
   confirmPassword: yup
     .string()
     .oneOf([yup.ref("password")], "As senhas devem corresponder")
