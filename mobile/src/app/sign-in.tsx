@@ -29,7 +29,7 @@ export default function SignIn() {
     const userSignIn = await signInAccount(data);
 
     if (userSignIn) {
-      router.replace("/(home)/home");
+      router.replace("/(home)/");
     }
   }
 
