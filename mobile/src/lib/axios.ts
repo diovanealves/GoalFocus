@@ -1,5 +1,6 @@
 import axios from "axios";
 
+import { jwtDecode } from "jwt-decode";
 import { useAuthStore } from "../stores/useAuthStore";
 import { extractTokensFromResponse } from "../utils/extractTokensFromResponse";
 import { storage } from "./storage";
@@ -27,39 +28,58 @@ api.interceptors.request.use(
 );
 
 api.interceptors.response.use(
-  (response) => {
+  async (response) => {
     return response;
   },
   async (error) => {
     const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest._retry) {
+
+    if (
+      error.response.status === 401 &&
+      originalRequest &&
+      !originalRequest._retry
+    ) {
       originalRequest._retry = true;
-      const refreshToken = storage.getString("refresh_token");
-      if (refreshToken) {
-        try {
-          const response = await api.post("/auth/refresh", {
-            headers: { Authorization: `Bearer ${refreshToken}` },
-          });
-          const { access_token, refresh_token } = extractTokensFromResponse(
-            response.headers["set-cookie"],
-          );
 
-          if (access_token && refresh_token) {
-            storage.set("access_token", access_token);
-            storage.set("refresh_token", refresh_token);
+      try {
+        const refreshToken = storage.getString("refresh_token");
 
-            api.defaults.headers.common["Authorization"] =
-              `Bearer ${access_token}`;
-          }
-
-          return api(originalRequest);
-        } catch (error) {
-          useAuthStore.getState().clearTokens();
-          return Promise.reject(error);
+        if (!refreshToken) {
+          throw new Error("Refresh token not found");
         }
+
+        const decodedToken = jwtDecode(refreshToken);
+        if (decodedToken.exp && decodedToken.exp * 1000 < Date.now()) {
+          useAuthStore.getState().clearTokens();
+          throw new Error("Refresh token expired");
+        }
+
+        const response = await api.post(
+          "/auth/refresh",
+          {},
+          {
+            headers: {
+              refresh_token: refreshToken,
+              "Content-Type": "application/json",
+            },
+          },
+        );
+
+        const { access_token, refresh_token } = extractTokensFromResponse(
+          response.headers["set-cookie"],
+        );
+
+        if (access_token && refresh_token) {
+          useAuthStore.getState().setTokens(access_token, refresh_token);
+          originalRequest.headers.Authorization = `Bearer ${access_token}`;
+        }
+
+        return api(originalRequest);
+      } catch (error) {
+        useAuthStore.getState().clearTokens();
+        throw error;
       }
     }
-    return Promise.reject(error);
   },
 );
 
