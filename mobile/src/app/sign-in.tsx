@@ -10,6 +10,7 @@ import { Button } from "../components/button";
 import { Input } from "../components/input";
 import { LinkButton } from "../components/link-button";
 import { ShowMyToast } from "../components/toast";
+import { Form } from "../components/form";
 
 import { useSignInAccount } from "../hooks/useSignInAccount";
 import { SignInSchema } from "../interface/sign-in.interface";
@@ -51,35 +52,21 @@ export default function SignIn() {
       </Text>
 
       <View className="w-4/5 mt-5 space-y-2">
-        <Controller
+        <Form
           control={control}
           name="email"
-          render={({ field: { onChange, onBlur, value } }) => (
-            <Input
-              title="Email"
-              placeholder="m@example.com"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              hasError={!!errors.email}
-            />
-          )}
+          title="Email"
+          placeholder="m@example.com"
+          errors={{ email: errors.email?.message }}
         />
 
-        <Controller
+        <Form
           control={control}
           name="password"
-          render={({ field: { onChange, onBlur, value } }) => (
-            <Input
-              title="Senha"
-              placeholder="Digite sua senha"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              hasError={!!errors.password}
-              secureTextEntry
-            />
-          )}
+          title="Senha"
+          placeholder="Digite sua Senha"
+          errors={{ password: errors.password?.message }}
+          secureTextEntry
         />
 
         <Button onPress={handleSubmit(useSignInAccountHandler)}>
