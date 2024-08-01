@@ -1,7 +1,10 @@
-import { Loading } from "@/src/components/loading";
-import { useAuthStore } from "@/src/stores/useAuthStore";
 import { Slot, router } from "expo-router";
 import { useEffect, useState } from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+
+import { Loading } from "@/src/components/loading";
+
+import { useAuthStore } from "@/src/stores/useAuthStore";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function HomeLayout() {
@@ -23,8 +26,10 @@ export default function HomeLayout() {
     return <Loading />;
   }
   return (
-    <SafeAreaView className="flex-1">
-      <Slot />
-    </SafeAreaView>
+    <GestureHandlerRootView>
+      <SafeAreaView className="flex-1">
+        <Slot />
+      </SafeAreaView>
+    </GestureHandlerRootView>
   );
 }
