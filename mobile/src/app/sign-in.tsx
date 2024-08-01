@@ -1,5 +1,6 @@
 import { Feather } from "@expo/vector-icons";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { router } from "expo-router";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Text, View } from "react-native";
@@ -10,7 +11,6 @@ import { Input } from "../components/input";
 import { LinkButton } from "../components/link-button";
 import { ShowMyToast } from "../components/toast";
 
-import { router } from "expo-router";
 import { useSignInAccount } from "../hooks/useSignInAccount";
 import { SignInSchema } from "../interface/sign-in.interface";
 
@@ -29,7 +29,7 @@ export default function SignIn() {
     const userSignIn = await signInAccount(data);
 
     if (userSignIn) {
-      router.replace("/(home)/");
+      router.replace("/(home)");
     }
   }
 
