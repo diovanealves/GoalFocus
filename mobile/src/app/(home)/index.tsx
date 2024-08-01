@@ -4,11 +4,11 @@ import { Feather } from "@expo/vector-icons";
 import BottomSheet from "@gorhom/bottom-sheet";
 
 import { Button } from "@/src/components/button";
-import { Divider } from "@/src/components/divider";
+import { Divider } from "./components/divider";
 import { Loading } from "@/src/components/loading";
 import { ShowMyToast } from "@/src/components/toast";
 import { Welcome } from "./components/welcome";
-import { Sheet } from "@/src/components/Sheet";
+import { Sheet } from "@/src/components/sheet";
 
 import { useUserData } from "@/src/hooks/useUserData";
 

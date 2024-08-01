@@ -1,7 +1,7 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { Text, View } from "react-native";
 
-import { Avatar } from "@/src/components/avatar";
+import { Avatar } from "./avatar";
 import { Button } from "@/src/components/button";
 
 import { useSignOut } from "@/src/hooks/useSignOut";

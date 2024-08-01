@@ -1,11 +1,11 @@
 import { Slot, router } from "expo-router";
 import { useEffect, useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Loading } from "@/src/components/loading";
 
 import { useAuthStore } from "@/src/stores/useAuthStore";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function HomeLayout() {
   const { access_token, refresh_token } = useAuthStore((state) => ({

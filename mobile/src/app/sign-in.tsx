@@ -2,12 +2,11 @@ import { Feather } from "@expo/vector-icons";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { router } from "expo-router";
 import { useEffect } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Text, View } from "react-native";
 import { InferType } from "yup";
 
 import { Button } from "../components/button";
-import { Input } from "../components/input";
 import { LinkButton } from "../components/link-button";
 import { ShowMyToast } from "../components/toast";
 import { Form } from "../components/form";
