@@ -7,7 +7,7 @@ import { Button } from "@/src/components/button";
 import { Divider } from "@/src/components/divider";
 import { Loading } from "@/src/components/loading";
 import { ShowMyToast } from "@/src/components/toast";
-import { Welcome } from "@/src/components/welcome";
+import { Welcome } from "./components/welcome";
 import { Sheet } from "@/src/components/Sheet";
 
 import { useUserData } from "@/src/hooks/useUserData";
