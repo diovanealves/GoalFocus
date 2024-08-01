@@ -1,18 +1,23 @@
+import { clsx } from "clsx";
 import { ReactNode } from "react";
 import { Text, TouchableOpacity, TouchableOpacityProps } from "react-native";
 
 type ButtonProps = TouchableOpacityProps & {
   children: ReactNode;
+  className?: string;
 };
 
 type ButtonTextAndIconProps = {
   children: ReactNode;
 };
 
-function Button({ children, ...rest }: ButtonProps) {
+function Button({ children, className, ...rest }: ButtonProps) {
   return (
     <TouchableOpacity
-      className="h-12 bg-lime-500 rounded-lg items-center justify-center flex-row "
+      className={clsx(
+        "h-12 bg-lime-500 rounded-lg items-center justify-center flex-row",
+        className,
+      )}
       activeOpacity={0.7}
       {...rest}
     >
