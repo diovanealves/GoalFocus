@@ -14,7 +14,7 @@ type SheetProps = {
   sheetRef: RefObject<BottomSheet>;
 };
 
-type SheetHeaderProps = ViewProps & {
+type SheetHeaderAndBodyProps = ViewProps & {
   children: ReactNode;
 };
 
@@ -53,7 +53,11 @@ function Sheet({ children, sheetRef }: SheetProps) {
   );
 }
 
-function SheetHeader({ children, ...rest }: SheetHeaderProps) {
+function SheetHeader({ children, ...rest }: SheetHeaderAndBodyProps) {
+  return <View {...rest}>{children}</View>;
+}
+
+function SheetBody({ children, ...rest }: SheetHeaderAndBodyProps) {
   return <View {...rest}>{children}</View>;
 }
 
@@ -82,6 +86,7 @@ function SheetTransactionButton({
 }
 
 Sheet.Header = SheetHeader;
+Sheet.Body = SheetBody;
 Sheet.Text = SheetText;
 Sheet.Button = SheetButton;
 Sheet.Icon = SheetIcon;

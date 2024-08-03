@@ -6,7 +6,7 @@ type FormProps<T extends FieldValues> = {
   control: Control<T>;
   errors?: Partial<Record<Path<T>, string>>;
   name: Path<T>;
-  title: string;
+  title?: string;
   placeholder: string;
   secureTextEntry?: boolean;
 };

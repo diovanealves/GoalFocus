@@ -12,7 +12,7 @@ export function Input({ title, hasError, ...rest }: InputProps) {
       <Text className="text-white leading-7">{title}</Text>
       <TextInput
         className={clsx(
-          "border-2 border-white bg-white rounded-lg px-2 py-2 my-1",
+          "border-2 border-white bg-white rounded-lg px-2 py-2",
           hasError && "border-red-500",
         )}
         blurOnSubmit={true}
