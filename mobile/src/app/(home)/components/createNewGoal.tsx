@@ -1,6 +1,3 @@
-import { Button } from "@/src/components/button";
-import { Form } from "@/src/components/form";
-import { createNewGoalSchema } from "@/src/interface/create-new-goal";
 import { Feather } from "@expo/vector-icons";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -8,7 +5,12 @@ import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { View } from "react-native";
 import { InferType } from "yup";
+
+import { Button } from "@/src/components/button";
+import { Form } from "@/src/components/form";
 import { Sheet } from "./sheet";
+
+import { createNewGoalSchema } from "@/src/interface/create-new-goal";
 
 export function CreateNewGoal() {
   const {
