@@ -1,14 +1,14 @@
 import { Button } from "@/src/components/button";
+import { Form } from "@/src/components/form";
+import { createNewGoalSchema } from "@/src/interface/create-new-goal";
 import { Feather } from "@expo/vector-icons";
 import BottomSheet from "@gorhom/bottom-sheet";
-import { useRef } from "react";
-import { View } from "react-native";
-import { Sheet } from "./sheet";
-import { Form } from "@/src/components/form";
-import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { createNewGoalSchema } from "@/src/interface/create-new-goal";
+import { useRef } from "react";
+import { useForm } from "react-hook-form";
+import { View } from "react-native";
 import { InferType } from "yup";
+import { Sheet } from "./sheet";
 
 export function CreateNewGoal() {
   const {
@@ -57,12 +57,10 @@ export function CreateNewGoal() {
             name="value"
             placeholder="Valor da meta"
             errors={{ value: errors.value?.message }}
+            keyboardType="numeric"
           />
 
-          <Button
-            className="bg-buttonSheet mt-3"
-            onPress={handleSubmit(useCreateNewGoal)}
-          >
+          <Button className=" mt-3" onPress={handleSubmit(useCreateNewGoal)}>
             <Button.Text className="text-white font-subtitle leading-tight">
               Criar
             </Button.Text>
