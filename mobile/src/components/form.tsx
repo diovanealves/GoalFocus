@@ -9,6 +9,7 @@ type FormProps<T extends FieldValues> = {
   title?: string;
   placeholder: string;
   secureTextEntry?: boolean;
+  keyboardType?: "email-address" | "numeric" | "default";
 };
 
 export function Form<T extends FieldValues>({
@@ -18,6 +19,7 @@ export function Form<T extends FieldValues>({
   title,
   placeholder,
   secureTextEntry,
+  keyboardType,
 }: FormProps<T>) {
   return (
     <Controller
@@ -32,6 +34,7 @@ export function Form<T extends FieldValues>({
           value={value}
           hasError={!!errors?.[name]}
           secureTextEntry={secureTextEntry}
+          keyboardType={keyboardType}
         />
       )}
     />
