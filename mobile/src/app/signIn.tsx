@@ -7,9 +7,9 @@ import { Text, View } from "react-native";
 import { InferType } from "yup";
 
 import { Button } from "../components/button";
-import { LinkButton } from "../components/link-button";
-import { ShowMyToast } from "../components/toast";
 import { Form } from "../components/form";
+import { LinkButton } from "../components/linkButton";
+import { ShowMyToast } from "../components/toast";
 
 import { useSignInAccount } from "../hooks/useSignInAccount";
 import { SignInSchema } from "../interface/sign-in.interface";
@@ -75,7 +75,7 @@ export default function SignIn() {
           </Button.Icon>
         </Button>
 
-        <LinkButton title="Cadastrar" href="/sign-up" />
+        <LinkButton title="Cadastrar" href="/signUp" />
       </View>
     </View>
   );

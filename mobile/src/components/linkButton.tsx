@@ -1,8 +1,8 @@
-import { Link } from "expo-router";
+import { Href, Link } from "expo-router";
 
 type LinkButtonProps = {
   title: string;
-  href: string;
+  href: Href<string | object>;
 };
 
 export function LinkButton({ title, href }: LinkButtonProps) {

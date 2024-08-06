@@ -18,7 +18,7 @@ export default function HomeLayout() {
     setMounted(true);
 
     if (mounted && (!access_token || !refresh_token)) {
-      router.replace("/sign-in");
+      router.replace("/signIn");
     }
   }, [mounted, access_token, refresh_token]);
 

@@ -7,9 +7,9 @@ import { Text, View } from "react-native";
 import { InferType } from "yup";
 
 import { Button } from "../components/button";
-import { LinkButton } from "../components/link-button";
-import { ShowMyToast } from "../components/toast";
 import { Form } from "../components/form";
+import { LinkButton } from "../components/linkButton";
+import { ShowMyToast } from "../components/toast";
 
 import { useCreateAccount } from "../hooks/useCreateAccount";
 import { SignUpSchema } from "../interface/sign-up.interface";
@@ -28,7 +28,7 @@ export default function SignUp() {
     const userCreated = await useCreateAccount(data);
 
     if (userCreated) {
-      router.navigate("/sign-in");
+      router.navigate("/signIn");
     }
   }
 
