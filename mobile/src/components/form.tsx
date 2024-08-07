@@ -1,42 +1,60 @@
+import clsx from "clsx";
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
+import { Text, TextInput, TextInputProps, View, ViewProps } from "react-native";
 
-import { Input } from "./input";
+type FormProps = ViewProps & {};
 
-type FormProps<T extends FieldValues> = {
+type ControllerProps<T extends FieldValues> = {
+  name: Path<T>;
   control: Control<T>;
   errors?: Partial<Record<Path<T>, string>>;
-  name: Path<T>;
-  title?: string;
-  placeholder: string;
-  secureTextEntry?: boolean;
-  keyboardType?: "email-address" | "numeric" | "default";
 };
 
-export function Form<T extends FieldValues>({
+type FormInputWithLabelProps<T extends FieldValues> = ControllerProps<T> &
+  TextInputProps & {
+    label: string;
+  };
+
+function Form({ children, ...rest }: FormProps) {
+  return <View {...rest}>{children}</View>;
+}
+
+function FormInputWithLabel<T extends FieldValues>({
   control,
-  errors,
   name,
-  title,
+  errors,
+  label,
   placeholder,
   secureTextEntry,
   keyboardType,
-}: FormProps<T>) {
+  ...rest
+}: FormInputWithLabelProps<T>) {
   return (
     <Controller
       control={control}
       name={name}
       render={({ field: { onChange, onBlur, value } }) => (
-        <Input
-          title={title}
-          placeholder={placeholder}
-          onBlur={onBlur}
-          onChangeText={onChange}
-          value={value}
-          hasError={!!errors?.[name]}
-          secureTextEntry={secureTextEntry}
-          keyboardType={keyboardType}
-        />
+        <View>
+          <Text className="text-white leading-7">{label}</Text>
+          <TextInput
+            className={clsx(
+              "border-2 border-white bg-white rounded-lg p-2",
+              !!errors?.[name] && "border-red-500",
+            )}
+            placeholder={placeholder}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            value={value}
+            secureTextEntry={secureTextEntry}
+            keyboardType={keyboardType}
+            {...rest}
+          />
+        </View>
       )}
     />
   );
 }
+
+Form.InputWithLabel = FormInputWithLabel;
+
+export { Form };
