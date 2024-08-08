@@ -91,6 +91,15 @@ function FormInputCurrency<T extends FieldValues>({
   errors,
   ...rest
 }: FormInputProps<T>) {
+  function parseCurrency(value: string) {
+    const numericValue = value
+      .replace("R$", "")
+      .replace(/\./g, "")
+      .replace(",", ".");
+
+    return parseFloat(numericValue);
+  }
+
   return (
     <Controller
       control={control}
@@ -110,7 +119,7 @@ function FormInputCurrency<T extends FieldValues>({
             suffixUnit: "",
           }}
           onChangeText={(text) => {
-            onChange(text);
+            onChange(parseCurrency(text));
           }}
           onBlur={onBlur}
           value={value || "R$ 0,00"}
