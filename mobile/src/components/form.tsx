@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
 import { Text, TextInput, TextInputProps, View, ViewProps } from "react-native";
+import { TextInputMask } from "react-native-masked-text";
 
 type FormProps = ViewProps & {};
 
@@ -14,6 +15,9 @@ type FormInputWithLabelProps<T extends FieldValues> = ControllerProps<T> &
   TextInputProps & {
     label: string;
   };
+
+type FormInputProps<T extends FieldValues> = ControllerProps<T> &
+  TextInputProps & {};
 
 function Form({ children, ...rest }: FormProps) {
   return <View {...rest}>{children}</View>;
@@ -55,6 +59,70 @@ function FormInputWithLabel<T extends FieldValues>({
   );
 }
 
+function FormInput<T extends FieldValues>({
+  control,
+  name,
+  errors,
+  ...rest
+}: FormInputProps<T>) {
+  return (
+    <Controller
+      control={control}
+      name={name}
+      render={({ field: { onChange, onBlur, value } }) => (
+        <TextInput
+          className={clsx(
+            "border-2 border-white bg-white rounded-lg p-2",
+            !!errors?.[name] && "border-red-500",
+          )}
+          onChangeText={onChange}
+          onBlur={onBlur}
+          value={value}
+          {...rest}
+        />
+      )}
+    />
+  );
+}
+
+function FormInputCurrency<T extends FieldValues>({
+  control,
+  name,
+  errors,
+  ...rest
+}: FormInputProps<T>) {
+  return (
+    <Controller
+      control={control}
+      name={name}
+      render={({ field: { onChange, onBlur, value } }) => (
+        <TextInputMask
+          className={clsx(
+            "border-2 border-white bg-white rounded-lg p-2",
+            !!errors?.[name] && "border-red-500",
+          )}
+          type="money"
+          options={{
+            precision: 2,
+            separator: ",",
+            delimiter: ".",
+            unit: "R$",
+            suffixUnit: "",
+          }}
+          onChangeText={(text) => {
+            onChange(text);
+          }}
+          onBlur={onBlur}
+          value={value || "R$ 0,00"}
+          {...rest}
+        />
+      )}
+    />
+  );
+}
+
+Form.Input = FormInput;
 Form.InputWithLabel = FormInputWithLabel;
+Form.InputCurrency = FormInputCurrency;
 
 export { Form };
