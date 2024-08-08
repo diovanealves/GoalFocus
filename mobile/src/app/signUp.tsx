@@ -7,10 +7,10 @@ import { Text, View } from "react-native";
 import { InferType } from "yup";
 
 import { Button } from "../components/button";
-import { Form } from "../components/form";
 import { LinkButton } from "../components/linkButton";
 import { ShowMyToast } from "../components/toast";
 
+import { Form } from "../components/form";
 import { useCreateAccount } from "../hooks/useCreateAccount";
 import { SignUpSchema } from "../interface/sign-up.interface";
 
@@ -61,39 +61,40 @@ export default function SignUp() {
       </Text>
 
       <View className="w-4/5 mt-5 space-y-6">
-        <Form
-          control={control}
-          name="name"
-          title="Nome"
-          placeholder="Digite seu nome"
-          errors={{ name: errors.name?.message }}
-        />
+        <Form>
+          <Form.InputWithLabel
+            control={control}
+            name="name"
+            label="Nome"
+            placeholder="Digite seu nome"
+            errors={{ name: errors.name?.message }}
+          />
 
-        <Form
-          control={control}
-          name="email"
-          title="Email"
-          placeholder="m@example.com"
-          errors={{ email: errors.email?.message }}
-        />
+          <Form.InputWithLabel
+            control={control}
+            name="email"
+            label="Email"
+            placeholder="m@example.com"
+            errors={{ email: errors.email?.message }}
+          />
 
-        <Form
-          control={control}
-          name="password"
-          title="Senha"
-          placeholder="Digite sua senha"
-          errors={{ password: errors.password?.message }}
-          secureTextEntry
-        />
+          <Form.InputWithLabel
+            control={control}
+            name="password"
+            label="Senha"
+            placeholder="Digite sua senha"
+            errors={{ password: errors.password?.message }}
+          />
 
-        <Form
-          control={control}
-          name="confirmPassword"
-          title="Confirme sua senha"
-          placeholder="Repira sua senha"
-          errors={{ confirmPassword: errors.confirmPassword?.message }}
-          secureTextEntry
-        />
+          <Form.InputWithLabel
+            control={control}
+            name="confirmPassword"
+            label="Confirme sua senha"
+            placeholder="Repita sua senha"
+            errors={{ confirmPassword: errors.confirmPassword?.message }}
+            secureTextEntry
+          />
+        </Form>
 
         <Button onPress={handleSubmit(useCreateAccountHandler)}>
           <Button.Text>Cadastrar</Button.Text>

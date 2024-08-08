@@ -51,22 +51,24 @@ export default function SignIn() {
       </Text>
 
       <View className="w-4/5 mt-5 space-y-2">
-        <Form
-          control={control}
-          name="email"
-          title="Email"
-          placeholder="m@example.com"
-          errors={{ email: errors.email?.message }}
-        />
+        <Form>
+          <Form.InputWithLabel
+            control={control}
+            name="email"
+            label="Email"
+            placeholder="m@example.com"
+            errors={{ email: errors.email?.message }}
+          />
 
-        <Form
-          control={control}
-          name="password"
-          title="Senha"
-          placeholder="Digite sua Senha"
-          errors={{ password: errors.password?.message }}
-          secureTextEntry
-        />
+          <Form.InputWithLabel
+            control={control}
+            name="password"
+            label="Senha"
+            placeholder="Digite sua Senha"
+            errors={{ password: errors.password?.message }}
+            secureTextEntry
+          />
+        </Form>
 
         <Button onPress={handleSubmit(useSignInAccountHandler)}>
           <Button.Text>Entrar</Button.Text>
