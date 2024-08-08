@@ -4,7 +4,6 @@ import {
   Text,
   TextProps,
   TouchableOpacity,
-  TouchableOpacityProps,
   View,
   ViewProps,
 } from "react-native";
@@ -27,15 +26,6 @@ type SheetButtonProps = {
   onPress: () => void;
 };
 
-type SheetTransactionProps = ViewProps & {
-  children: ReactNode;
-};
-
-type SheetTransactionButtonProps = TouchableOpacityProps & {
-  children: ReactNode;
-  onSelect: (type: string) => void;
-};
-
 function Sheet({ children, sheetRef }: SheetProps) {
   return (
     <BottomSheet
@@ -46,6 +36,9 @@ function Sheet({ children, sheetRef }: SheetProps) {
       backgroundStyle={{
         backgroundColor: "#040507",
         flex: 1,
+      }}
+      style={{
+        paddingHorizontal: 18,
       }}
     >
       {children}
@@ -73,24 +66,10 @@ function SheetIcon({ children }: SheetTextAndIconProps) {
   return children;
 }
 
-function SheetTransaction({ children, ...rest }: SheetTransactionProps) {
-  return <View {...rest}>{children}</View>;
-}
-
-function SheetTransactionButton({
-  children,
-  onSelect,
-  ...rest
-}: SheetTransactionButtonProps) {
-  return <TouchableOpacity {...rest}>{children}</TouchableOpacity>;
-}
-
 Sheet.Header = SheetHeader;
 Sheet.Body = SheetBody;
 Sheet.Text = SheetText;
 Sheet.Button = SheetButton;
 Sheet.Icon = SheetIcon;
-Sheet.Transaction = SheetTransaction;
-Sheet.TransactionButton = SheetTransactionButton;
 
 export { Sheet };
