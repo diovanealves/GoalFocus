@@ -13,10 +13,6 @@ export class UpdateGoalDto extends PartialType(CreateGoalDto) {
   description: string
 
   @IsOptional()
-  @ApiProperty({ description: "The goal's current value" })
-  currentValue: number
-
-  @IsOptional()
   @ApiProperty({ description: "The goal's final value" })
   finalValue: number
 }

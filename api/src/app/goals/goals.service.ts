@@ -10,7 +10,9 @@ export class GoalsService {
   async create(userId: string, createGoalDto: CreateGoalDto) {
     await this.prisma.goal.create({
       data: {
-        ...createGoalDto,
+        title: createGoalDto.title,
+        description: createGoalDto.description,
+        finalValue: createGoalDto.finalValue,
         user: { connect: { id: userId } },
       },
     })
@@ -51,7 +53,11 @@ export class GoalsService {
 
     await this.prisma.goal.update({
       where: { id: goalId },
-      data: { ...updateGoalDto },
+      data: {
+        title: updateGoalDto.title,
+        description: updateGoalDto.description,
+        finalValue: updateGoalDto.finalValue,
+      },
     })
   }
 
