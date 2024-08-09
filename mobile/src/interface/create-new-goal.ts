@@ -6,6 +6,13 @@ export const createNewGoalSchema = yup.object().shape({
     .min(5, "Precisa ter no minimo 5 caracteres")
     .required("O campo nome é obrigatório")
     .trim(),
+
+  description: yup
+    .string()
+    .min(5, "Precisa ter no minimo 5 caracteres")
+    .required("O campo descrição é obrigatório")
+    .trim(),
+
   value: yup
     .number()
     .positive("O valor precisa ser positivo")

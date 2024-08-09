@@ -66,6 +66,13 @@ export function CreateNewGoal() {
               errors={{ name: errors.name?.message }}
             />
 
+            <Form.Input
+              control={control}
+              name="description"
+              placeholder="Descreva sua meta"
+              errors={{ description: errors.description?.message }}
+            />
+
             <Form.InputCurrency
               control={control}
               name="value"
