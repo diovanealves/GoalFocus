@@ -3,7 +3,7 @@ import BottomSheet from "@gorhom/bottom-sheet";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
-import { View } from "react-native";
+import { Keyboard, View } from "react-native";
 import { InferType } from "yup";
 
 import { Button } from "@/src/components/button";
@@ -27,12 +27,25 @@ export function CreateNewGoal() {
     console.log(data);
   }
 
+  async function closeSheet() {
+    sheetRef.current?.close();
+    Keyboard.dismiss();
+  }
+
+  function sheetHandleFocus() {
+    sheetRef.current?.snapToIndex(0);
+  }
+
   useEffect(() => {
     if (errors.name)
       return ShowMyToast({ type: "error", text: errors.name.message });
 
     if (errors.value)
       return ShowMyToast({ type: "error", text: errors.value.message });
+
+    Keyboard.addListener("keyboardDidHide", () => {
+      sheetRef.current?.snapToIndex(1);
+    });
   }, [errors.name, errors.value]);
 
   return (
@@ -51,7 +64,7 @@ export function CreateNewGoal() {
           <Sheet.Text className="font-subtitle text-xl text-white leading-relaxed">
             Nova Meta
           </Sheet.Text>
-          <Sheet.Button onPress={() => sheetRef.current?.close()}>
+          <Sheet.Button onPress={closeSheet}>
             <Sheet.Icon>
               <Feather name="x" size={24} color="#7C7C8A" />
             </Sheet.Icon>
@@ -64,6 +77,7 @@ export function CreateNewGoal() {
               name="name"
               placeholder="Nome da meta"
               errors={{ name: errors.name?.message }}
+              onFocus={sheetHandleFocus}
             />
 
             <Form.Input
@@ -71,12 +85,14 @@ export function CreateNewGoal() {
               name="description"
               placeholder="Descreva sua meta"
               errors={{ description: errors.description?.message }}
+              onFocus={sheetHandleFocus}
             />
 
             <Form.InputCurrency
               control={control}
               name="value"
               errors={{ value: errors.value?.message }}
+              onFocus={sheetHandleFocus}
             />
           </Form>
 

@@ -30,8 +30,8 @@ function Sheet({ children, sheetRef }: SheetProps) {
   return (
     <BottomSheet
       ref={sheetRef}
-      index={-1}
-      snapPoints={["45%", "45%"]}
+      index={1}
+      snapPoints={["80%", "45%"]}
       enablePanDownToClose={true}
       backgroundStyle={{
         backgroundColor: "#040507",
