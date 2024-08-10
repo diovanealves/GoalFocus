@@ -11,6 +11,7 @@ import { Form } from "@/src/components/form";
 import { ShowMyToast } from "@/src/components/toast";
 import { Sheet } from "./sheet";
 
+import { useCreateGoal } from "@/src/hooks/useCreateGoal";
 import { createNewGoalSchema } from "@/src/interface/create-new-goal";
 
 export function CreateNewGoal() {
@@ -18,13 +19,25 @@ export function CreateNewGoal() {
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     resolver: yupResolver(createNewGoalSchema),
   });
+  const { mutate } = useCreateGoal();
+
   const sheetRef = useRef<BottomSheet>(null);
 
   async function useCreateNewGoal(data: InferType<typeof createNewGoalSchema>) {
-    console.log(data);
+    mutate(data, {
+      onSuccess: () => {
+        Keyboard.dismiss();
+        setTimeout(() => {
+          sheetRef.current?.close();
+        }, 100);
+      },
+    });
+
+    reset({ description: "", name: "", value: 0 });
   }
 
   async function closeSheet() {
@@ -40,13 +53,16 @@ export function CreateNewGoal() {
     if (errors.name)
       return ShowMyToast({ type: "error", text: errors.name.message });
 
+    if (errors.description)
+      return ShowMyToast({ type: "error", text: errors.description.message });
+
     if (errors.value)
       return ShowMyToast({ type: "error", text: errors.value.message });
 
     Keyboard.addListener("keyboardDidHide", () => {
       sheetRef.current?.snapToIndex(1);
     });
-  }, [errors.name, errors.value]);
+  }, [errors.name, errors.description, errors.value]);
 
   return (
     <View className="flex-1 -m-3">
