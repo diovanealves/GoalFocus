@@ -40,6 +40,9 @@ function Sheet({ children, sheetRef }: SheetProps) {
       style={{
         paddingHorizontal: 18,
       }}
+      android_keyboardInputMode="adjustPan"
+      keyboardBehavior="interactive"
+      animateOnMount
     >
       {children}
     </BottomSheet>
