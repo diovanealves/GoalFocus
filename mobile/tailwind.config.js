@@ -4,8 +4,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        backgroud: "#0E0F11",
         buttonSheet: "#4551E6",
+        cardBackground: "#0E0F11",
+        cardBorder: "#202224",
       },
       fontFamily: {
         subtitle: "Inter_500Medium",

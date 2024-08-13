@@ -27,7 +27,7 @@ export default function HomeLayout() {
   }
   return (
     <GestureHandlerRootView>
-      <SafeAreaView className="flex-1">
+      <SafeAreaView className="flex-1 bg-black">
         <Slot />
       </SafeAreaView>
     </GestureHandlerRootView>

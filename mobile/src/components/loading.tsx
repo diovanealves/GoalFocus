@@ -1,11 +1,10 @@
-import { ActivityIndicator } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { ActivityIndicator, View } from "react-native";
 import colors from "tailwindcss/colors";
 
 export function Loading() {
   return (
-    <SafeAreaView className="flex-1 items-center justify-center bg-backgroud">
+    <View className="flex-1 items-center justify-center bg-black">
       <ActivityIndicator size="large" color={colors.lime[400]} />
-    </SafeAreaView>
+    </View>
   );
 }

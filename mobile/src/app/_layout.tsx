@@ -23,8 +23,8 @@ export default function Root() {
 
   return (
     <QueryClientProvider client={new QueryClient()}>
-      <SafeAreaView className="flex-1 bg-backgroud">
-        <StatusBar backgroundColor="#0E0F11" />
+      <SafeAreaView className="flex-1 bg-black">
+        <StatusBar translucent />
         <Slot />
       </SafeAreaView>
       <Toast />
