@@ -66,7 +66,7 @@ export function CreateNewGoal() {
   }, [errors.name, errors.description, errors.value]);
 
   return (
-    <View className="flex-1 -m-3">
+    <View className="absolute top-0 left-0 right-0 bottom-0 z-10">
       <Button
         className="rounded-full w-12 absolute bottom-6 right-4"
         onPress={() => setIsSheetOpen(true)}
