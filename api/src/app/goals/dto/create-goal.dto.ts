@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { Transform } from 'class-transformer'
-import { IsNotEmpty, IsPositive } from 'class-validator'
+import { IsDecimal, IsNotEmpty, IsNumberString } from 'class-validator'
 
 export class CreateGoalDto {
   @IsNotEmpty()
@@ -12,8 +11,8 @@ export class CreateGoalDto {
   description: string
 
   @IsNotEmpty()
-  @IsPositive()
-  @Transform(({ value }) => parseFloat(value))
+  @IsNumberString({ locale: 'en-US' })
+  @IsDecimal({ decimal_digits: '2' })
   @ApiProperty()
-  finalValue: number
+  finalValue: string
 }

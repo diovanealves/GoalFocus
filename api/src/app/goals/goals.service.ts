@@ -1,4 +1,5 @@
 import { PrismaService } from '@/lib/prisma.service'
+import { validateMinMax } from '@/validations/number.validation'
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { CreateGoalDto } from './dto/create-goal.dto'
 import { UpdateGoalDto } from './dto/update-goal.dto'
@@ -8,11 +9,13 @@ export class GoalsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(userId: string, createGoalDto: CreateGoalDto) {
+    await validateMinMax(createGoalDto.finalValue)
+
     await this.prisma.goal.create({
       data: {
         title: createGoalDto.title,
         description: createGoalDto.description,
-        finalValue: createGoalDto.finalValue,
+        finalValue: parseFloat(createGoalDto.finalValue),
         user: { connect: { id: userId } },
       },
     })
@@ -50,13 +53,14 @@ export class GoalsService {
 
   async update(userId: string, goalId: string, updateGoalDto: UpdateGoalDto) {
     await this.findOne(goalId, userId)
+    await validateMinMax(updateGoalDto.finalValue)
 
     await this.prisma.goal.update({
       where: { id: goalId },
       data: {
         title: updateGoalDto.title,
         description: updateGoalDto.description,
-        finalValue: updateGoalDto.finalValue,
+        finalValue: parseFloat(updateGoalDto.finalValue),
       },
     })
   }

@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types'
 import { ApiProperty } from '@nestjs/swagger'
-import { IsOptional } from 'class-validator'
+import { IsDecimal, IsNumberString, IsOptional } from 'class-validator'
 import { CreateGoalDto } from './create-goal.dto'
 
 export class UpdateGoalDto extends PartialType(CreateGoalDto) {
@@ -13,6 +13,8 @@ export class UpdateGoalDto extends PartialType(CreateGoalDto) {
   description: string
 
   @IsOptional()
-  @ApiProperty({ description: "The goal's final value" })
-  finalValue: number
+  @IsNumberString({ locale: 'en-US' })
+  @IsDecimal({ decimal_digits: '2' })
+  @ApiProperty()
+  finalValue: string
 }

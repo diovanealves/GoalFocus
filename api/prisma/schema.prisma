@@ -23,8 +23,8 @@ model Goal {
   id           String        @id @default(uuid())
   title        String
   description  String
-  currentValue Decimal       @default(0) @map("current_value")
-  finalValue   Decimal       @default(0) @map("final_value")
+  currentValue Decimal       @default(0) @map("current_value") @db.Decimal(10, 2)
+  finalValue   Decimal       @default(0) @map("final_value") @db.Decimal(10, 2)
   createdAt    DateTime      @default(now()) @map("created_at")
   updatedAt    DateTime      @updatedAt @map("updated_at")
   userId       String        @map("user_id")
@@ -36,7 +36,7 @@ model Goal {
 
 model Transaction {
   id        String          @id @default(uuid())
-  value     Decimal
+  value     Decimal         @db.Decimal(10, 2)
   type      TransactionType
   createdAt DateTime        @default(now()) @map("created_at")
   updatedAt DateTime        @updatedAt @map("updated_at")
