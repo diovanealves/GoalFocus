@@ -34,7 +34,7 @@ export function MyGoals() {
           renderItem={({ item }) => (
             <Card className="w-48 h-36 bg-neutral-900 py-2 px-3 rounded-xl mt-3">
               <Card.Text className="text-white text-lg font-title">
-                {item.title}
+                {item.title.slice(0, 14) + "..."}
               </Card.Text>
 
               <Card.TextCurrency
