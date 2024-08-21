@@ -1,14 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { TransactionType } from '@prisma/client'
-import { Transform } from 'class-transformer'
-import { IsEnum, IsNotEmpty, IsPositive, IsUUID } from 'class-validator'
+import {
+  IsDecimal,
+  IsEnum,
+  IsNotEmpty,
+  IsNumberString,
+  IsUUID,
+} from 'class-validator'
 
 export class CreateTransactionDto {
   @IsNotEmpty()
-  @IsPositive()
-  @Transform(({ value }) => parseFloat(value))
+  @IsNumberString({ locale: 'en-US' })
+  @IsDecimal({ decimal_digits: '2' })
   @ApiProperty()
-  value: number
+  value: string
 
   @IsNotEmpty()
   @IsEnum(TransactionType, {
