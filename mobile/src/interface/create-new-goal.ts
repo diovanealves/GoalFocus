@@ -15,7 +15,13 @@ export const createNewGoalSchema = yup.object().shape({
 
   value: yup
     .number()
-    .positive("O valor precisa ser positivo")
-    .min(0, "O valor precisa ser maior que 0")
-    .required("O campo valor é obrigatório"),
+    .typeError("O valor deve ser um número válido")
+    .test(
+      "is-decimal",
+      "O valor deve ter no máximo duas casas decimais",
+      (value) => !!value && /^\d+(\.\d{1,2})?$/.test(value.toString()),
+    )
+    .min(0, "O valor deve ser maior que 0")
+    .max(999999999, "O valor deve ser menor que 999999999")
+    .required("O valor final é obrigatório"),
 });

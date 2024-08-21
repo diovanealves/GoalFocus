@@ -11,7 +11,7 @@ export async function CreateGoalService(
   await api.post("/goals", {
     title: data.name,
     description: data.description,
-    finalValue: data.value,
+    finalValue: data.value.toFixed(2),
   });
 
   return true;

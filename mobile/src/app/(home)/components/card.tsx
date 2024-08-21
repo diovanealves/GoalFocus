@@ -29,11 +29,12 @@ function CardText({ children, ...rest }: CardTextProps) {
 }
 
 function CardTextCurrency({ value, ...rest }: CardTextCurrencyProps) {
-  var moneyMask = MaskService.toMask("money", value, {
+  const numericValue = parseFloat(value).toFixed(2);
+  var moneyMask = MaskService.toMask("money", numericValue, {
     unit: "R$",
     separator: ",",
     delimiter: ".",
-  });
+  }).toString();
 
   return <Text {...rest}>{moneyMask}</Text>;
 }
