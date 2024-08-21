@@ -1,3 +1,4 @@
+import { Feather } from "@expo/vector-icons";
 import clsx from "clsx";
 import { Text, TextProps, View, ViewProps } from "react-native";
 import { MaskService } from "react-native-masked-text";
@@ -8,6 +9,12 @@ type CardTextProps = TextProps & {};
 
 type CardTextCurrencyProps = TextProps & {
   value: string;
+};
+
+type CardIconProps = ViewProps & {
+  type: "INCOME" | "EXPENSE";
+  size?: number;
+  color?: string;
 };
 
 type CardProgressProps = ViewProps & {
@@ -31,12 +38,28 @@ function CardText({ children, ...rest }: CardTextProps) {
 function CardTextCurrency({ value, ...rest }: CardTextCurrencyProps) {
   const numericValue = parseFloat(value).toFixed(2);
   var moneyMask = MaskService.toMask("money", numericValue, {
-    unit: "R$",
+    unit: "R$ ",
     separator: ",",
     delimiter: ".",
   }).toString();
 
   return <Text {...rest}>{moneyMask}</Text>;
+}
+
+function CardIcon({
+  type,
+  size = 24,
+  color = "#FFFFFF",
+  ...rest
+}: CardIconProps) {
+  return (
+    <Feather
+      name={type === "INCOME" ? "trending-up" : "trending-down"}
+      size={size}
+      color={color}
+      {...rest}
+    />
+  );
 }
 
 function CardProgress({
@@ -88,6 +111,7 @@ function CardProgressText({
 
 Card.Text = CardText;
 Card.TextCurrency = CardTextCurrency;
+Card.Icon = CardIcon;
 Card.Progress = CardProgress;
 Card.ProgressText = CardProgressText;
 
