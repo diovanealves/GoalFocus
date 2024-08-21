@@ -8,6 +8,7 @@ import { Welcome } from "./components/welcome";
 
 import { useUserData } from "@/src/hooks/useUserData";
 import { MyGoals } from "./components/myGoals";
+import { RecentTransactions } from "./components/recentTransactions";
 
 export default function Index() {
   const { data, isError, isLoading } = useUserData();
@@ -26,6 +27,7 @@ export default function Index() {
 
       <Divider />
       <MyGoals />
+      <RecentTransactions />
 
       <CreateNewGoal />
     </View>
