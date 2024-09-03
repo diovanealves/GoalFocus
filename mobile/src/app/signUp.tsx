@@ -84,6 +84,7 @@ export default function SignUp() {
             label="Senha"
             placeholder="Digite sua senha"
             errors={{ password: errors.password?.message }}
+            secureTextEntry
           />
 
           <Form.InputWithLabel
