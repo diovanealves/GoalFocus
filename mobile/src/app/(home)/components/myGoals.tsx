@@ -1,6 +1,7 @@
 import { Loading } from "@/src/components/loading";
 import { ShowMyToast } from "@/src/components/toast";
 import { UseGetGoals } from "@/src/hooks/useGetGoals";
+import { Feather } from "@expo/vector-icons";
 import { FlatList, Text, View } from "react-native";
 import { Card } from "./card";
 
@@ -21,11 +22,7 @@ export function MyGoals() {
         Minhas Metas
       </Text>
 
-      {goals.length === 0 ? (
-        <View className="flex-1 items-center justify-center">
-          <Text className="text-white ">Não tem nenhuma meta cadastrada</Text>
-        </View>
-      ) : (
+      {goals.length > 0 ? (
         <FlatList
           data={goals}
           keyExtractor={(item) => item.id}
@@ -59,6 +56,13 @@ export function MyGoals() {
             </Card>
           )}
         />
+      ) : (
+        <View className="h-36 items-center justify-center">
+          <Feather name="clipboard" size={46} color={"#FFF"} />
+          <Text className="text-white text-base font-body leading-tight">
+            Não tem nenhuma meta cadastrada
+          </Text>
+        </View>
       )}
     </View>
   );
